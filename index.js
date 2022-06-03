@@ -106,12 +106,30 @@ const main = async () => {
             }
             case 3:{
                 //1. capturar o cpf do usuário
+                const { cpf } =  await prompts({
+                    type: 'text',
+                    name: 'cpf',
+                    message: "Digite seu cpf"
+                })
                 //2. buscar o aluno no histórico de matriculas (store.getState().historicoMatriculas)
+                const aluno = store.getState().historicoMatriculas.find((a) => a.cpf === cpf)
+                if (aluno){
+                    console.log(`Seu status é: ${aluno.status}`)
+                }
+                else{
+                    console.log("Você não existe")
+                }
                 //3. Exibir o status do aluno caso ele exista
                 //4. Caso contrário exibir uma mensagem dizendo que ele não existe
                 break;
+            }
+            case 4: {
+                const aprovados = store.getState().historicoVestibular.filter(aluno => aluno.nota >= 6)
+                console.log(aprovados)
+                break
             }
 
         }
     }while (response.op !== 0)
 }
+main()
